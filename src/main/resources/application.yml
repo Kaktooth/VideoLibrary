@@ -1,0 +1,32 @@
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-exception: true
+
+spring:
+  application:
+    name: sensor
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: ${REMOTE_DATABASE_URL:jdbc:postgresql://localhost:5432/videolib}
+    username: ${REMOTE_DATABASE_USERNAME:postgres}
+    password: ${REMOTE_DATABASE_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: 'true'
+      hibernate:
+        ddl-auto: update
+      show-sql: 'true'
+    hikari:
+      maximum-pool-size: 50
+
+  main:
+    allow-bean-definition-overriding: true
+    lazy-initialization: false
+  flyway:
+    enabled: true
+    validate-on-migrate: true
