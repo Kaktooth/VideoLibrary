@@ -8,34 +8,24 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 
 @Data
+@RequiredArgsConstructor
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "videos")
+@Table(name = "categories")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class VideoData extends Domain {
+public class Category extends Domain {
 
-  String videoId;
-  UUID categoryId;
+  String name;
 
   @Builder
-  public VideoData(UUID id, String videoId, UUID categoryId) {
+  public Category(UUID id, String name) {
     super(id);
-    this.videoId = videoId;
-    this.categoryId = categoryId;
-  }
-
-  public String getYoutubeLink() {
-    return "https://www.youtube.com/embed/" + videoId + "?ecver=1";
-  }
-
-  public String getYoutubeThumbnail() {
-    return "http://img.youtube.com/vi/" + videoId + "/maxresdefault.jpg";
+    this.name = name;
   }
 
   @Override
@@ -46,8 +36,8 @@ public class VideoData extends Domain {
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    VideoData videoData = (VideoData) o;
-    return getId() != null && Objects.equals(getId(), videoData.getId());
+    Category categoryObject = (Category) o;
+    return getId() != null && Objects.equals(getId(), categoryObject.getId());
   }
 
   @Override

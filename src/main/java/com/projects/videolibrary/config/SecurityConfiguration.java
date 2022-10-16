@@ -23,8 +23,7 @@ public class SecurityConfiguration {
 
     String errorPage = "/error";
     String logInPage = "/log-in";
-    String createAccountPage = "/create-account";
-    String api = "/api/**";
+    String createAccountPage = "/sign-up";
     String page = "/";
 
 

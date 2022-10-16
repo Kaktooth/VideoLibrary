@@ -9,7 +9,6 @@ import javax.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
@@ -19,7 +18,6 @@ import org.hibernate.Hibernate;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@NoArgsConstructor
 public class Domain {
 
   @Id
