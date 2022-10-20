@@ -12,9 +12,10 @@
           crossorigin="anonymous"></script>
   <style>
     .card {
-      min-height: 280px;
-      min-width: 420px;
+      min-height: 260px;
+      min-width: 400px;
       margin-right: 20px;
+      margin-top: 20px;
     }
 
     .scroll {
@@ -58,7 +59,7 @@
           <ul class="dropdown-menu dropdown-menu-dark" style="background: #202120">
             <li th:each="category : ${categoryList}">
               <a th:text="${category.name}" class="dropdown-item"
-                 th:href="@{/main/{categoryId}(categoryId =${category.name})}"></a>
+                 th:href="@{/main/{selectCategory}(selectCategory =${category.name})}"></a>
             </li>
           </ul>
         </li>
@@ -67,14 +68,14 @@
   </div>
 </nav>
 <div class="container px-4 text-white">
-
-  <div class="container py-4" th:each="data : ${videoDataByCategory}">
-    <label th:text="${data.key.name}"></label>
+  <div th:if="${selectedCategory} == null" class="container py-4"
+       th:each="data : ${videoDataByCategory}">
+    <label class="fs-3" th:text="${data.key.name}"></label>
     <div class="scroll card-group">
       <div class="d-flex flex-row flex-nowrap px-4 py-2">
         <div th:each="video : ${data.value}">
           <a th:href="@{/main/player/{videoId}(videoId = ${video.videoId})}">
-            <img class="card rounded-3 shadow" style="width: 420px; height: 280px;"
+            <img class="card rounded-3 shadow" style="width: 400px; height: 260px;"
                  th:src="${video.getYoutubeThumbnail()}"
                  alt="">
           </a>
@@ -82,10 +83,17 @@
       </div>
     </div>
   </div>
+  <div th:if="${selectedCategory} != null" class="container mx-auto mt-4 py-4">
+    <div class="row">
+      <div class="col-md-4" th:each="video : ${selectedVideos}">
+        <a th:href="@{/main/player/{videoId}(videoId = ${video.videoId})}">
+          <img class="card rounded-3 shadow" style="width: 400px; height: 260px;"
+               th:src="${video.getYoutubeThumbnail()}"
+               alt="">
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
-//TODO:
-// show list of categories that can be selected
-// if no name chosen, then show all name items in list with scrollbar
-// else show items of name and
 </body>
 </html>
