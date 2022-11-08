@@ -44,6 +44,28 @@
     </button>
   </form>
 </div>
+<div>
+  <form class="align-self-center mb-4" name="form" th:method="POST">
+    <label for="newCategory" class="sr-only">Save all videos with category from youtube</label>
+    <input type="text" id="newCategory" name="newCategory" class="form-control mb-4"
+           placeholder="new Category">
+    <div class="mb-2">
+      <select class="form-select form-select-sm"
+              id="selectedCategory" name="selectedCategory" th:value="''">
+        <option th:text="''"
+                th:value="''">
+        </option>
+        <option th:each="category : ${categoryList}" th:text="${category.name}"
+                th:value="${category.name}">
+        </option>
+      </select>
+    </div>
+    <button th:formaction="@{/admin-dashboard/add-video-with-category}" class="btn btn-light"
+            type="submit">
+      Create
+    </button>
+  </form>
+</div>
 <form th:action="@{/log-out}" class="align-self-center mb-4" name="form"
       th:method="GET">
   <button class="btn btn-dark" type="submit">
