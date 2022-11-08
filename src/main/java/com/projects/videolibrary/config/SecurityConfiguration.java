@@ -1,14 +1,9 @@
 package com.projects.videolibrary.config;
 
+import com.projects.videolibrary.auth.Authority;
 import com.projects.videolibrary.auth.LoginAuthenticationProvider;
 import javax.sql.DataSource;
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,41 +16,61 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    String errorPage = "/error";
-    String logInPage = "/log-in";
-    String createAccountPage = "/sign-up";
-    String page = "/";
+  String logInPage = "/log-in";
+  String adminPage = "/admin-dashboard";
 
 
-    private final DataSource dataSource;
-    private final PasswordEncoder passwordEncoder;
+  private final DataSource dataSource;
+  private final PasswordEncoder passwordEncoder;
 
-    public SecurityConfiguration(DataSource dataSource,
-                                 PasswordEncoder passwordEncoder) {
-        this.dataSource = dataSource;
-        this.passwordEncoder = passwordEncoder;
-    }
+  public SecurityConfiguration(DataSource dataSource,
+      PasswordEncoder passwordEncoder) {
+    this.dataSource = dataSource;
+    this.passwordEncoder = passwordEncoder;
+  }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+  @Autowired
+  void configureGlobal(
+      AuthenticationManagerBuilder auth,
+      LoginAuthenticationProvider authenticationProvider
+  ) throws Exception {
 
-        return http.build();
-    }
+    auth.authenticationProvider(authenticationProvider)
+        .jdbcAuthentication()
+        .dataSource(dataSource)
+        .passwordEncoder(passwordEncoder)
+        .usersByUsernameQuery(
+            "SELECT username, email, password, enabled FROM users WHERE username = ?")
+        .authoritiesByUsernameQuery(
+            "SELECT username, authority_id FROM authorities WHERE username = ?");
+  }
 
-    @Autowired
-    void configureGlobal(
-        AuthenticationManagerBuilder auth,
-        LoginAuthenticationProvider authenticationProvider
-    ) throws Exception {
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf().disable();
+    http.authorizeRequests()
+        .mvcMatchers(logInPage, "/**")
+        .permitAll()
+        .mvcMatchers(adminPage)
+        .hasAuthority(Authority.ADMIN.getNumVal().toString())
+        .and()
+        .formLogin()
+        .loginPage(logInPage)
+        .usernameParameter("user")
+        .passwordParameter("password")
+        .defaultSuccessUrl(adminPage, true)
+        .failureUrl(logInPage + "?error")
+        .permitAll()
+        .and()
+        .logout()
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID")
+        .logoutUrl("/log-out")
+        .logoutSuccessUrl("/log-in")
+        .permitAll();
 
-        auth.authenticationProvider(authenticationProvider)
-            .jdbcAuthentication()
-            .dataSource(dataSource)
-            .passwordEncoder(passwordEncoder)
-            .usersByUsernameQuery("SELECT username, email, password, enabled FROM users WHERE username = ?")
-            .authoritiesByUsernameQuery("SELECT username, email, authority FROM authorities WHERE username = ?");
-    }
+    return http.build();
+  }
 
 //    @Bean
 //    public ServletWebServerFactory servletContainer() {

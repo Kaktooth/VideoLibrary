@@ -37,6 +37,11 @@
       border-radius: 10px;
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
     }
+
+    .videowrapper {
+      padding-top: 4.5rem!important;
+      padding-bottom: 4.5rem!important;
+    }
   </style>
 
 </head>
@@ -92,6 +97,11 @@
                alt="">
         </a>
       </div>
+    </div>
+  </div>
+  <div th:if="${url} != null" class="iframe-video-wrap">
+    <div class="videowrapper">
+      <iframe width="1280" height="720" th:src="${url}" frameborder="0" allowfullscreen=""></iframe>
     </div>
   </div>
 </div>

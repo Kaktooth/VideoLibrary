@@ -25,4 +25,12 @@ public class CategoryService {
   public Category getCategoryByName(String name) {
     return categoryRepository.getCategoryByName(name);
   }
+
+  public void addCategory(String name) {
+    categoryRepository.save(new Category(name));
+  }
+
+  public void removeCategory(String name) {
+    categoryRepository.deleteByName(name);
+  }
 }

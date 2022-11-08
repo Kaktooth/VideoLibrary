@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends CommonRepository<Category> {
 
   Category getCategoryByName(String name);
+
+  void deleteByName(String name);
 }

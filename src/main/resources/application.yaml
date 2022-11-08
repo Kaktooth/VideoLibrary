@@ -5,6 +5,10 @@ server:
     include-exception: true
 
 spring:
+  mvc:
+    hiddenmethod:
+     filter:
+      enabled: true
   application:
     name: sensor
   datasource:

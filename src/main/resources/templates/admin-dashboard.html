@@ -1,10 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+
 </head>
 <body>
+<div>
+  <form class="align-self-center mb-4" name="form" th:method="POST">
+    <label for="category" class="sr-only">Categories</label>
+    <input type="text" id="category" name="category" class="form-control mb-4"
+           placeholder="Category">
 
+    <button th:formaction="@{/admin-dashboard/add-category}" th:method="POST"
+            class="btn btn-light" type="submit">Add
+    </button>
+    <button th:formaction="@{/admin-dashboard/remove-category}" th:method="POST"
+            class="btn btn-light" type="submit">Remove
+    </button>
+  </form>
+</div>
+<div>
+  <form class="align-self-center mb-4" name="form" th:method="POST">
+    <label for="videoId" class="sr-only">Videos</label>
+    <input type="text" id="videoId" name="videoId" class="form-control mb-4" placeholder="Video Id">
+    <div class="mb-2">
+      <select class="form-select form-select-sm"
+              id="categorySelect" name="categorySelect">
+        <option th:each="category : ${categoryList}" th:text="${category.name}"
+                th:value="${category.name}">
+        </option>
+      </select>
+    </div>
+    <button th:formaction="@{/admin-dashboard/add-video}" class="btn btn-light" type="submit">
+      Add
+    </button>
+    <button th:formaction="@{/admin-dashboard/remove-video}" class="btn btn-light" type="submit">
+      Remove
+    </button>
+  </form>
+</div>
+<form th:action="@{/log-out}" class="align-self-center mb-4" name="form"
+      th:method="GET">
+  <button class="btn btn-dark" type="submit">
+    Logout
+  </button>
+</form>
 </body>
 </html>

@@ -44,6 +44,14 @@ public class MainController {
     return "main";
   }
 
+  @GetMapping("/player/{videoId}")
+  public String getPlayer(@PathVariable String videoId, Model model) {
+    addCategoryList(model);
+    VideoData video = videoService.getVideoDataByVideoId(videoId);
+    model.addAttribute("url", video.getYoutubeLink());
+    return "main";
+  }
+
   private void addCategoryList(Model model) {
     List<Category> categoryList = categoryService.getAllCategories();
     model.addAttribute("categoryList", categoryList);

@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface VideoRepository extends CommonRepository<VideoData> {
 
   List<VideoData> findAllByCategoryId(UUID categoryId);
+
+  VideoData findByVideoId(String videoId);
+
+  void deleteByVideoId(String videoId);
 }

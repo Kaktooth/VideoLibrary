@@ -2,7 +2,6 @@ package com.projects.videolibrary.service;
 
 import com.projects.videolibrary.model.Category;
 import com.projects.videolibrary.model.VideoData;
-import com.projects.videolibrary.model.VideoDataRequest;
 import com.projects.videolibrary.repository.CategoryRepository;
 import com.projects.videolibrary.repository.VideoRepository;
 import java.util.HashMap;
@@ -26,23 +25,22 @@ public class VideoService {
     this.categoryRepository = categoryRepository;
   }
 
-  public VideoData saveVideoData(VideoDataRequest videoDataRequest) {
-    UUID id = videoDataRequest.id();
-    if (id == null) {
-      id = UUID.randomUUID();
-    }
-
+  public VideoData saveVideoData(String videoId, UUID categoryId) {
     VideoData videoData = VideoData.builder()
-        .id(id)
-        .videoId(videoDataRequest.videoId())
-        .categoryId(videoDataRequest.categoryId())
+        .id(UUID.randomUUID())
+        .videoId(videoId)
+        .categoryId(categoryId)
         .build();
 
     return videoRepository.save(videoData);
   }
 
-  public void deleteVideoData(UUID deleteId) {
-    videoRepository.deleteById(deleteId);
+  public VideoData getVideoDataByVideoId(String id) {
+    return videoRepository.findByVideoId(id);
+  }
+
+  public void deleteVideoData(String videoId) {
+    videoRepository.deleteByVideoId(videoId);
   }
 
   public List<VideoData> getVideoDataByCategoryId(UUID categoryId) {
@@ -51,7 +49,7 @@ public class VideoService {
 
   public Map<Category, List<VideoData>> getAllVideoDataWithCategories() {
     List<Category> categoryList = categoryRepository.findAll();
-    Map<Category,  List<VideoData>> categoryVideoDataMap = new HashMap<>();
+    Map<Category, List<VideoData>> categoryVideoDataMap = new HashMap<>();
     for (var category : categoryList) {
       categoryVideoDataMap.put(category, getVideoDataByCategoryId(category.getId()));
     }

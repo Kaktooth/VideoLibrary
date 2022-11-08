@@ -40,7 +40,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
             List<GrantedAuthority> authorities
                 = new ArrayList<>();
             if (user.getAuthorities() == null) {
-                SimpleGrantedAuthority userAuthority = new SimpleGrantedAuthority(Authority.USER.toString());
+                SimpleGrantedAuthority userAuthority = new SimpleGrantedAuthority(Authority.ADMIN.toString());
                 authorities.add(userAuthority);
             } else {
                 authorities.addAll(user.getAuthorities());
