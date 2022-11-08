@@ -76,7 +76,7 @@ public class AdminDashboardController {
         .send(request, HttpResponse.BodyHandlers.ofString());
     UUID categoryId;
     if (selectedCategory == "") {
-      Category category = categoryService.addCategory(searchCategory);
+      Category category = categoryService.addCategory(newCategory);
       categoryId = category.getId();
 
     } else {
