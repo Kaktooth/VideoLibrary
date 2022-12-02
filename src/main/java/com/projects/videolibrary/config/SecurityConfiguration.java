@@ -49,10 +49,9 @@ public class SecurityConfiguration {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf().disable();
     http.authorizeRequests()
-        .mvcMatchers(logInPage, "/**")
-        .permitAll()
         .mvcMatchers(adminPage)
         .hasAuthority(Authority.ADMIN.getNumVal().toString())
+        .anyRequest().authenticated()
         .and()
         .formLogin()
         .loginPage(logInPage)

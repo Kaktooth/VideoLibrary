@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="mt-4 border border-primary d-flex justify-content-center align-self-center">
+<!--  <label th:inline="text">admin login: [[${#httpServletRequest.remoteUser}]]</label>-->
   <div class="m-3">
     <form class="align-self-center mb-4" name="form" th:method="POST">
       <label for="category" class="sr-only">Categories</label>
