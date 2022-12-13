@@ -13,9 +13,9 @@ spring:
     name: sensor
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: ${REMOTE_DATABASE_URL:jdbc:postgresql://localhost:5432/videolib}
-    username: ${REMOTE_DATABASE_USERNAME:postgres}
-    password: ${REMOTE_DATABASE_PASSWORD:admin}
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/videolib}
+    username: ${PGUSER:postgres}
+    password: ${PGPASSWORD:admin}
     driver-class-name: org.postgresql.Driver
     jpa:
       properties:
