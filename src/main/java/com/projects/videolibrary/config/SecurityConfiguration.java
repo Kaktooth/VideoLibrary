@@ -17,8 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
   String logInPage = "/log-in";
-  String adminPage = "/admin-dashboard";
-
+  String adminPage = "/admin-dashboard/**";
+  String mainPage = "/main/**";
 
   private final DataSource dataSource;
   private final PasswordEncoder passwordEncoder;
@@ -51,7 +51,6 @@ public class SecurityConfiguration {
     http.authorizeRequests()
         .mvcMatchers(adminPage)
         .hasAuthority(Authority.ADMIN.getNumVal().toString())
-        .anyRequest().authenticated()
         .and()
         .formLogin()
         .loginPage(logInPage)
